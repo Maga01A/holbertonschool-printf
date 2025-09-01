@@ -22,7 +22,7 @@ int _printf(const char *format, ...)
         {
             format++;
 	    if (!*format)
-		    break;
+		break;
 
             switch (*format)
             {
