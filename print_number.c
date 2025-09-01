@@ -11,6 +11,7 @@ int print_number(int n)
 {
 	int count = 0;
 	unsigned int num;
+	char digit;
 
 	if (n < 0)
 	{
@@ -26,7 +27,8 @@ int print_number(int n)
 	if (num / 10)
 		count += print_number(num / 10);
 
-	count += write(1, &((char){(num % 10) + '0'}), 1);
+	digit = (num % 10) + '0';
+	count += write(1, &digit, 1);
 
 	return (count);
 }
