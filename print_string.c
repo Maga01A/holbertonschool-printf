@@ -14,10 +14,7 @@ int print_string(const char *str)
         str = "(null)";
 
     while (*str)
-    {
-        count += _putchar(*str);
-        str++;
-    }
+        count += _putchar(*str++);
 
     return (count);
 }
