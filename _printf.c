@@ -1,70 +1,37 @@
 #include "main.h"
-
+#include <stdarg.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 /**
- * _printf - Custom printf function
- * @format: Format string
- *
- * Return: Number of characters printed
+ * _printf - this is mini version of ptintf(3) function
+ * @format: a character string
+ * Return: the number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	va_list args;
-	int count = 0;
+	unsigned int i, k = 0;
+	va_list ptr;
 
-	if (!format)
-		return (-1);
-
-	va_start(args, format);
-
-	while (*format)
+	va_start(ptr, format);
+	for (i = 0; format != NULL && format[i] != '\0'; i++)
 	{
-		if (*format == '%')
+		if (format[i] == '%' && format[i + 1] == 'c')
+			k = (unsigned int)_print_c(&k, va_arg(ptr, int)), i++;
+		else if (format[i] == '%' && format[i + 1] == 's')
 		{
-			format++;
-			switch (*format)
-			{
-				case 'c':
-					count += _putchar(va_arg(args, int));
-					break;
-				case 's':
-					count += print_string(va_arg(args, char *));
-					break;
-				case '%':
-					count += _putchar('%');
-					break;
-				case 'd':
-				case 'i':
-					count += print_number(va_arg(args, int));
-					break;
-				case 'u':
-					count += print_unsigned(va_arg(args, unsigned int));
-					break;
-				case 'o':
-					count += print_octal(va_arg(args, unsigned int));
-					break;
-				case 'x':
-					count += print_hex(va_arg(args, unsigned int), 0);
-					break;
-				case 'X':
-					count += print_hex(va_arg(args, unsigned int), 1);
-					break;
-				case 'p':
-					count += print_pointer(va_arg(args, void *));
-					break;
-				default:
-					count += _putchar('%');
-					count += _putchar(*format);
-					break;
-			}
+			k = (unsigned int)_print_s(&k, va_arg(ptr, char *));
+			i++;
 		}
+		else if (format[i] == '%' && format[i + 1] == '%')
+			write(1, "%", 1), i++, k++;
+		else if (format[i] == '%' && format[i + 1] == '\0')
+			continue;
 		else
-		{
-			count += _putchar(*format);
-		}
-		format++;
+			write(1, &format[i], 1), k++;
 	}
-
-	va_end(args);
-	return (count);
+	va_end(ptr);
+	if (k == 0)
+		exit(1);
+	return (k);
 }
-
