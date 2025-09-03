@@ -22,6 +22,13 @@ int _printf(const char *format, ...)
         {
             format++;
 
+            /* Eğer %'den sonra hiçbir şey yoksa hata (-1) dön */
+            if (!*format)
+            {
+                va_end(args);
+                return (-1);
+            }
+
             switch (*format)
             {
             case 'c':
