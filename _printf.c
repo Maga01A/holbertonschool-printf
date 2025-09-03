@@ -27,7 +27,7 @@ int handle_format(const char format, va_list args)
 		count += print_number(va_arg(args, int));
 		break;
 	case 'u':
-		count += print_unsigned(va_arg(args, unsigned int));
+		count += print_unsigned(va_arg(args, unsigned int num));
 		break;
 	case 'o':
 		count += print_octal(va_arg(args, unsigned int));
